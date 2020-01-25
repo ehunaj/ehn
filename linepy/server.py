@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+
+
+# -*- coding: utf-8 -*-# -*- coding: utf-8 -*-
 from akad.ttypes import ApplicationType
 import re, json, requests, urllib
 
@@ -17,18 +19,38 @@ class LineServer(object):
     LINE_CERTIFICATE_PATH       = '/Q'
     LINE_CHAN_QUERY_PATH        = '/CH4'
     LINE_SQUARE_QUERY_PATH      = '/SQS1'
+    LINE_SHOP_QUERY_PATH        = '/SHOP4'
+    LINE_LIFF_QUERY_PATH        = '/LIFF1'
 
     CHANNEL_ID = {
         'LINE_TIMELINE': '1341209850',
         'LINE_WEBTOON': '1401600689',
         'LINE_TODAY': '1518712866',
         'LINE_STORE': '1376922440',
-        'LINE_MUSIC': '1381425814'
+        'LINE_MUSIC': '1381425814',
+        'LINE_SERVICES': '1459630796'
     }
+
+    APP_VERSION = {
+        'ANDROID': '8.14.2',
+        'IOS': '8.14.2',
+        'ANDROIDLITE': '2.1.0',
+        'BIZANDROID': '1.7.2',
+        'BIZIOS': '1.7.5',
+        'BIZWEB': '1.0.22',
+        'DESKTOPWIN': '5.9.0',
+        'DESKTOPMAC': '5.9.0',
+        'IOSIPAD': '8.14.2',
+        'CHROMEOS': '2.1.5',
+        'WIN10': '5.5.5',
+        'DEFAULT': '8.11.0'
+    }
+
+
 #7.14.0'
-    USER_AGENT  = 'Line/7.14.0'
-    APP_TYPE    = ApplicationType.IOS
-    APP_NAME    = 'IOSIPAD\x097.14.0\x09iPhone_OS\x0911.2.5'
+    USER_AGENT  = 'Line/2.1.5'
+    APP_TYPE    = ApplicationType.CHROMEOS
+    APP_NAME    = 'IOSIPAD\x092.1.5\x09iPhone_OS\x0911.2.5'
    # APP_NAME    = 'CHROMEOS\t1.7.14\tChrome_OS\t1'
     #APP_NAME    = 'DESKTOPMAC 10.10.2-YOSEMITE-x64    MAC 4.5.0' #IOSIPAD\t7.18.1\tiPhone OS\t11.2.5'
     CARRIER     = '51089, 1-0'
