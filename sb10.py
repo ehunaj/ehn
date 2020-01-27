@@ -540,9 +540,9 @@ def ehunBot(op):
                         kc.acceptGroupInvitationByTicket(op.param1,Ti)
                         kd.acceptGroupInvitationByTicket(op.param1,Ti)
                         ke.acceptGroupInvitationByTicket(op.param1,Ti)
-                        s1.tGroupInvitationByTicket(op.param1,Ti)
-                        s2.tGroupInvitationByTicket(op.param1,Ti)
-                        s3.tGroupInvitationByTicket(op.param1,Ti)
+                        s1.acceptGroupInvitationByTicket(op.param1,Ti)
+                        s2.acceptGroupInvitationByTicket(op.param1,Ti)
+                        s3.acceptGroupInvitationByTicket(op.param1,Ti)
                         G.preventJoinByTicket = True
                         ehun.updateGroup(G)
                         sendMention(op.param1, op.param2, "","\nTrimaksih Kak Invit aku\nDiGroup" + str(G.name) + "\nSilah kn Ketik ☞Help☜ Untuk Bantuan☆\n☆Harap Gunakan Dengan Bijak ^_^ ☆")
@@ -625,6 +625,9 @@ def ehunBot(op):
                     s2.acceptGroupInvitationByTicket(op.param1,Ti)
                     s3.acceptGroupInvitationByTicket(op.param1,Ti)
                     random.choice(ABC).kickoutFromGroup(op.param1,[op.param2])
+                    G = random.choice(ABC).getGroup(op.param1)
+                    G.preventJoinByTicket = True
+                    random.choice(ABC).updateGroup(G)
                     pass
 
         if op.type == 13:
@@ -1330,23 +1333,28 @@ def ehunBot(op):
                                   wait["protctcancel"] = False
                                   ehun.sendMessage(msg.to,"protectcancel di off")
 
-                            elif text.lower() == 'invitebot':
+                            elif text.lower() == 'addbot':
                               if msg._from in admin:
-                                  G = cl.getGroup(msg.to)
-                                  lis = [Amid,Bmid,Cmid,Dmid,Emid]
-                                  cl.inviteIntoGroup(msg.to,lis)
-                                  ki.acceptGroupInvitation(msg.to)
-                                  kk.acceptGroupInvitation(msg.to)
-                                  kc.acceptGroupInvitation(msg.to)
-                                  kd.acceptGroupInvitation(msg.to)
-                                  ke.acceptGroupInvitation(msg.to)
-                              else:
-                                  cl.sendMessage(msg.to,"Izin dulu kak sama boss\nb̶o̶tডা‮‮─┅═ই\nhttps://line.me/ti/p/~sarehun")
+                                  G = ehun.getGroup(msg.to)
+                                  lis = [mid,Amid,Bmid,Cmid,Dmid,Emid,Fmid,Gmid,Hmid,Imid]
+                                  ehun.findAndAddContactsByMid(lis)
+                                  cl.findAndAddContactsByMid(lis)
+                                  ki.findAndAddContactsByMid(lis)
+                                  kk.findAndAddContactsByMid(lis)
+                                  kc.findAndAddContactsByMid(lis)
+                                  kd.findAndAddContactsByMid(lis)
+                                  ke.findAndAddContactsByMid(lis)
+                                  s1.findAndAddContactsByMid(lis)
+                                  s2.findAndAddContactsByMid(lis)
+                                  s3.findAndAddContactsByMid(lis)
+                                  sendMention(msg.to,msg._from, "","Success boss")
+                             else:
+                                  ehun.sendMessage(msg.to,"Izin dulu kak sama boss\nb̶o̶tডা‮‮─┅═ই\nhttps://line.me/ti/p/~sarehun")
 
                             elif text.lower() == '*':
                               if msg._from in admin:
                                   G = ehun.getGroup(msg.to)
-                                  lis = [mid,Amid,Bmid,Cmid,Dmid,Emid]
+                                  lis = [mid,Amid,Bmid,Cmid,Dmid,Emid,Fmid,Gmid,Hmid]
                                   ehun.inviteIntoGroup(msg.to,lis)
                                   cl.acceptGroupInvitation(msg.to)
                                   ki.acceptGroupInvitation(msg.to)
@@ -1354,6 +1362,9 @@ def ehunBot(op):
                                   kc.acceptGroupInvitation(msg.to)
                                   kd.acceptGroupInvitation(msg.to)
                                   ke.acceptGroupInvitation(msg.to)
+                                  s1.acceptGroupInvitation(msg.to)
+                                  s2.acceptGroupInvitation(msg.to)
+                                  s3.acceptGroupInvitation(msg.to)
 
                             elif "Bubar" in msg.text:
                               if msg._from in Creator:
@@ -1380,15 +1391,22 @@ def ehunBot(op):
                                 if msg.toType == 2:
                                   kc.sendMessage(msg.to,sepi)
                                   _name = msg.text.replace("Rx","")
+                                  G = ehun.getGroup(msg.to)
                                   G = cl.getGroup(msg.to)
                                   G = ki.getGroup(msg.to)
                                   G = kk.getGroup(msg.to)
                                   G = kc.getGroup(msg.to)
+                                  G = kd.getGroup(msg.to)
+                                  G = ke.getGroup(msg.to)
+                                  G = s1.getGroup(msg.to)
+                                  G = s2.getGroup(msg.to)
+                                  G = s3.getGroup(msg.to)
                                   targets = []
                                   for g in G.members + G.invitee:
                                       targets.append(g.mid)
                                   for target in targets:
                                       if target not in Bots:
+                                          bl["blacklist"][target] = True
                                           try:
                                               random.choice(ABC).cancelGroupInvitation(msg.to, [target])
                                           except:
@@ -2301,12 +2319,12 @@ def ehunBot(op):
                                   for x in key["MENTIONEES"]:
                                       targets.append(x["M"])
                                   for target in targets:
-                                      if target not in admin:
-                                          try:
-                                              bot.append(target)
-                                              ehun.sendMessage(msg.to,"Succes add bots")
-                                          except:
-                                              pass
+                                      bot.append(target)
+                                      try:
+                                          random.choice(KAC).findAndAddContactsByMid(target)
+                                          ehun.sendMessage(msg.to,"Succes add bots")
+                                      except:
+                                          pass
 
                             elif ("Botdell " in msg.text):
                               if msg._from in admin:
@@ -2316,12 +2334,11 @@ def ehunBot(op):
                                   for x in key["MENTIONEES"]:
                                       targets.append(x["M"])
                                   for target in targets:
-                                      if target not in admin:
-                                          try:
-                                              bot.remove(target)
-                                              ehun.sendMessage(msg.to,"Sahabat bot di hapus")
-                                          except:
-                                              pass
+                                      bot.remove(target)
+                                      try:
+                                          ehun.sendMessage(msg.to,"Sahabat bot di hapus")
+                                      except:
+                                          pass
                             elif text.lower() == 'restart': 
                               if msg._from in admin:
                                   ehun.sendText(receiver,"Ok bot di ulang")
@@ -2749,7 +2766,7 @@ def ehunBot(op):
                                         pass
                                     for jj in matched_list:
                                         try:
-                                            klist = [cl,ki,kk,kc,kd,ke]
+                                            klist = [cl,ki,kk,kc,kd,ke,s1,s2,s3]
                                             tim = random.choice(klist)
                                             tim.kickoutFromGroup(msg.to,[jj])
                                             print(msg.to,[jj])
@@ -3353,35 +3370,37 @@ def ehunBot(op):
                                  ehun.sendMessage(msg.to,"Jangan ngetag Creator ku kak\nDia gi sibuk!!!!!!")
                                  break
             if msg.contentType == 0 and msg.toType == 2:
-                if  "/ti/g/" in text and wait["autoJoinTicket"] == True:
-                    regek = re.compile('(?:line\:\/|line\.me\/R)\/ti\/g\/([a-zA-Z0-9_-]+)?')
-                    links = regek.findall(text)
-                    tickets = []
-                    gids = ehun.getGroupIdsJoined()
-                    for l in links:
-                        if l not in tickets:
-                            tickets.append(l)
-                    for ticket_id in tickets:
-                        try:
-                            group = ehun.findGroupByTicket(ticket_id)
-                            group1 = cl.findGroupByTicket(ticket_id)
-                            group2 = ki.findGroupByTicket(ticket_id)
-                            group3 = kk.findGroupByTicket(ticket_id)
-                            group4 = kc.findGroupByTicket(ticket_id)
-                        except:
-                            continue
-                        if group.id in gids:
-                             continue
-                        ehun.acceptGroupInvitationByTicket(group.id,ticket_id)
-                        ehun.sendMessage(msg.to, "Masuk : %s" % str(group.name))
-                        cl.acceptGroupInvitationByTicket(group1.id,ticket_id)
-                        cl.sendMessage(msg.to, "Masuk : %s" % str(group1.name))
-                        ki.acceptGroupInvitationByTicket(group2.id,ticket_id)
-                        ki.sendMessage(msg.to, "Masuk : %s" % str(group2.name))
-                        kk.acceptGroupInvitationByTicket(group3.id,ticket_id)
-                        kk.sendMessage(msg.to, "Masuk : %s" % str(group3.name))
-                        kc.acceptGroupInvitationByTicket(group4.id,ticket_id)
-                        kc.sendMessage(msg.to, "Masuk : %s" % str(group4.name))
+                if  "/ti/g/" in msg.text.lower():
+                     if wait["autoJoinTicket"] == True:
+                         regek = re.compile('(?:line\:\/|line\.me\/R)\/ti\/g\/([a-zA-Z0-9_-]+)?')
+                         links = regek.findall(text)
+                         tickets = []
+                         gids = ehun.getGroupIdsJoined()
+                         for l in links:
+                             if l not in tickets:
+                                 tickets.append(l)
+                         for ticket_id in tickets:
+                             try:
+                                 group = ehun.findGroupByTicket(ticket_id)
+                                 group = cl.findGroupByTicket(ticket_id)
+                                 group = ki.findGroupByTicket(ticket_id)
+                                 group = kk.findGroupByTicket(ticket_id)
+                                 group = kc.findGroupByTicket(ticket_id)
+                             except:
+                                 pass
+                             if group.id in gids:
+                                 pass
+                             else:
+                                 ehun.acceptGroupInvitationByTicket(group.id,ticket_id)
+                                 ehun.sendMessage(msg.to, "Masuk : %s" % str(group.name))
+                                 cl.acceptGroupInvitationByTicket(group.id,ticket_id)
+                                 cl.sendMessage(msg.to, "Masuk : %s" % str(group.name))
+                                 ki.acceptGroupInvitationByTicket(group.id,ticket_id)
+                                 ki.sendMessage(msg.to, "Masuk : %s" % str(group.name))
+                                 kk.acceptGroupInvitationByTicket(group.id,ticket_id)
+                                 kk.sendMessage(msg.to, "Masuk : %s" % str(group.name))
+                                 kc.acceptGroupInvitationByTicket(group.id,ticket_id)
+                                 kc.sendMessage(msg.to, "Masuk : %s" % str(group.name))
 
         if op.type == 26:
             msg = op.message
