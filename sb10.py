@@ -409,19 +409,11 @@ def ehunBot(op):
 
         if op.type == 17:
             if op.param2 in bl["blacklist"]:
-                group = ehun.getGroup(op.param1)
-                gMembMids = [contact.mid for contact in group.members]
-                matched_list = []
-                for tag in bl["blacklist"]:
-                    matched_list+=filter(lambda str: str == tag, gMembMids)
-                    if matched_list == []:
-                        sendMention(op.param1, op.param2, "")
-                        pass
-                for jj in matched_list:
+                for jj in bl["blacklist]:
                     try:
                         s3.kickoutFromGroup(op.param1,[jj])
                     except:
-                        try:
+                    
                             s2.kickoutFromGroup(op.param1,[jj])
                         except:
                             try:
@@ -1108,6 +1100,46 @@ def ehunBot(op):
                     except:
                         pass
 
+                    G = ehun.getGroup(op.param1)
+                    G.preventJoinByTicket = False
+                    ehun.updateGroup(G)
+                    Ti = ehun.reissueGroupTicket(op.param1)
+                    ehun.acceptGroupInvitationByTicket(op.param1,Ti)
+                    cl.acceptGroupInvitationByTicket(op.param1,Ti)
+                    ki.acceptGroupInvitationByTicket(op.param1,Ti)
+                    kk.acceptGroupInvitationByTicket(op.param1,Ti)
+                    kc.acceptGroupInvitationByTicket(op.param1,Ti)
+                    kd.acceptGroupInvitationByTicket(op.param1,Ti)
+                    ke.acceptGroupInvitationByTicket(op.param1,Ti)
+                    s1.acceptGroupInvitationByTicket(op.param1,Ti)
+                    s2.acceptGroupInvitationByTicket(op.param1,Ti)
+                    s3.acceptGroupInvitationByTicket(op.param1,Ti)
+                    pass
+        if op.type == 19:
+            if op.param3 in Bots:
+                if op.param2 in Bots:
+                    pass
+                if op.param2 in admin:
+                    pass
+                else:
+                    bl['blacklist'][op.param2] = True
+                    with open('bl.json', 'w') as fp:
+                        json.dump(bl, fp, sort_keys=True, indent=4)
+                    try:
+                        ehun.inviteIntoGroup(op.param1,[mid,Amid,Bmid,Cmid,Dmid,Emid,Fmid,Gmid,Hmid,Imid])
+                        ehun.acceptGroupInvitation(op.param1)
+                        cl.acceptGroupInvitation(op.param1)
+                        ki.acceptGroupInvitation(op.param1)
+                        kk.acceptGroupInvitation(op.param1)
+                        kc.acceptGroupInvitation(op.param1)
+                        kd.acceptGroupInvitation(op.param1)
+                        ke.acceptGroupInvitation(op.param1)
+                        s1.acceptGroupInvitation(op.param1)
+                        s2.acceptGroupInvitation(op.param1)
+                        s3.acceptGroupInvitation(op.param1)
+                    except:
+                        pass
+
                     G = cl.getGroup(op.param1)
                     G.preventJoinByTicket = False
                     cl.updateGroup(G)
@@ -1305,7 +1337,7 @@ def ehunBot(op):
                                   msgs+="\n═════════List Friend═════════\n\nTotal Friend : %i" % len(kontak)
                                   ehun.sendText(msg.to, msgs)
 
-                            elif text.lower() == "cancelgroup":
+                            elif text.lower() == "reject:
                               if msg._from in admin:
                                   gid = ehun.getGroupIdsInvited()
                                   for i in gid:
@@ -1332,24 +1364,6 @@ def ehunBot(op):
                               if msg._from in admin:
                                   wait["protctcancel"] = False
                                   ehun.sendMessage(msg.to,"protectcancel di off")
-
-                            elif text.lower() == 'addbot':
-                              if msg._from in admin:
-                                  G = ehun.getGroup(msg.to)
-                                  lis = [mid,Amid,Bmid,Cmid,Dmid,Emid,Fmid,Gmid,Hmid,Imid]
-                                  ehun.findAndAddContactsByMid(lis)
-                                  cl.findAndAddContactsByMid(lis)
-                                  ki.findAndAddContactsByMid(lis)
-                                  kk.findAndAddContactsByMid(lis)
-                                  kc.findAndAddContactsByMid(lis)
-                                  kd.findAndAddContactsByMid(lis)
-                                  ke.findAndAddContactsByMid(lis)
-                                  s1.findAndAddContactsByMid(lis)
-                                  s2.findAndAddContactsByMid(lis)
-                                  s3.findAndAddContactsByMid(lis)
-                                  sendMention(msg.to,msg._from, "","Success boss")
-                              else:
-                                  ehun.sendMessage(msg.to,"Izin dulu kak sama boss\nb̶o̶tডা‮‮─┅═ই\nhttps://line.me/ti/p/~sarehun")
 
                             elif text.lower() == '*':
                               if msg._from in admin:
@@ -2090,14 +2104,14 @@ def ehunBot(op):
                               if msg._from in admin:
                                   wait["qr"] = False
                                   ehun.sendText(msg.to,"Qr off")
-                            elif text.lower() == 'cancel on':
-                              if msg._from in admin:
-                                  wait["AutoCancel"] = True
-                                  ehun.sendText(msg.to,"AutoCancel on")
-                            elif text.lower() == 'cancel off':
-                              if msg._from in admin:
-                                  wait["AutoCancel"] = False
-                                  ehun.sendText(msg.to,"AutoCancel off")
+                            #elif text.lower() == 'cancel on':
+                              #if msg._from in admin:
+                                 # wait["AutoCancel"] = True
+                                 # ehun.sendText(msg.to,"AutoCancel on")
+                            #elif text.lower() == 'cancel off':
+                             # if msg._from in admin:
+                                #  wait["AutoCancel"] = False
+                                 # ehun.sendText(msg.to,"AutoCancel off")
 
                             elif text.lower() == 'namelock on':
                               if msg._from in admin:
@@ -2319,7 +2333,7 @@ def ehunBot(op):
                                   for x in key["MENTIONEES"]:
                                       targets.append(x["M"])
                                   for target in targets:
-                                      bot.append(target)
+                                      Bots.append(target)
                                       try:
                                           random.choice(KAC).findAndAddContactsByMid(target)
                                           ehun.sendMessage(msg.to,"Succes add bots")
@@ -2334,7 +2348,7 @@ def ehunBot(op):
                                   for x in key["MENTIONEES"]:
                                       targets.append(x["M"])
                                   for target in targets:
-                                      bot.remove(target)
+                                      Bots.remove(target)
                                       try:
                                           ehun.sendMessage(msg.to,"Sahabat bot di hapus")
                                       except:
@@ -3087,13 +3101,7 @@ def ehunBot(op):
                                   except Exception as e:
                                       ehun.sendText(msg.to, str(e))
 
-                            elif text.lower() == 'botlink':
-                              if msg._from in admin:
-                                  #url = LineClient()
-                                  mye = ehun.sendImageWithURL(msg.to,"line://au/q/")                                  
-                                  ehun.sendMessage(msg.to,"Open this link " + mye + "\on your LINE forsmartphone in 2 minutes\n" + url)
-                                  for s in mye:
-                                      ehun.sendMessage(msg.to,"Token mu\n"+s.authToken)
+               
 
                             elif text.lower() == 'bottoken':
                               if msg._from in admin:
@@ -3283,14 +3291,11 @@ def ehunBot(op):
                     if op.param2 in Bots and op.param2 in admin:
                         pass
                     else:
-                        ehun.sendText(op.param1,"Hai kak" +cl.getContact(op.param2).displayName + "\nJangn Tukar Nama Group (-_-) \nMaaf Aku kick Kamu")
-                        bl["blacklist"][op.param2] = True
-                        with open('bl.json', 'w') as fp:
-                            json.dump(bl, fp, sort_keys=True, indent=4)
+                        ehun.sendText(op.param1,"Hai kak" +ehun.getContact(op.param2).displayName + "\nJangn Tukar Nama Group (-_-)")
                         try:
                             cl.kickoutFromGroup(op.param1,[op.param2])
                         except:
-                            try:
+                            tr
                                 ki.kickoutFromGroup(op.param1,[op.param2])
                             except:
                                 try:
